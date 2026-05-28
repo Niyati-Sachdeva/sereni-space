@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'features/home/screens/home_screen.dart';
-import 'features/journal/screens/journal_screen.dart';
-import 'features/meditation/screens/meditation_screen.dart';
+import 'features/journal/screen/journal_screen.dart';
+import 'features/meditation/screens/meditation_sceen.dart';
 import 'features/settings/screens/settings_screen.dart';
 import 'shared/widgets/app_shell.dart';
 
