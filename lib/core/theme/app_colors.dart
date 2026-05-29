@@ -9,7 +9,7 @@ class AppColors {
   static const Color calmBluePrimary    = Color(0xFF6B9FD4);
   static const Color calmBlueSecondary  = Color(0xFFB8D4F0);
   static const Color calmBlueSurface    = Color(0xFFF0F6FC);
-  static const Color calmBlueBackground = Color(0xFFF7F9FD);
+ static const calmBlueBackground        = Color(0xFFDDEEFF);
 
   // Warm Sunset theme 
   static const Color sunsetPrimary    = Color(0xFFD4845A);

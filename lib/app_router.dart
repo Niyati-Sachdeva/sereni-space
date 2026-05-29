@@ -5,11 +5,16 @@ import 'features/journal/screen/journal_screen.dart';
 import 'features/meditation/screens/meditation_sceen.dart';
 import 'features/settings/screens/settings_screen.dart';
 import 'shared/widgets/app_shell.dart';
+import 'features/splash/screens/splash_screen.dart';
 
 
 final appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+  path: '/splash',
+  builder: (context, state) => const SplashScreen(),
+),
 
     ShellRoute(
       builder: (context, state, child) {
