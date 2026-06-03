@@ -20,6 +20,8 @@ Future<void> main() async {
 
   // Initialize Hive local database
   await Hive.initFlutter();
+  //final box=Hive.box('userBox');
+ // box.put('name','')
 
 
   runApp(
