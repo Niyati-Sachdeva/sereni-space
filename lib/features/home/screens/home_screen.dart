@@ -10,6 +10,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedMood;
+  Map<String, String>? get _recommendation {
+  switch (_selectedMood) {
+    case 'Happy':
+      return {
+        'title': 'Keep the positivity flowing 🌞',
+        'action': 'Try Gratitude Journaling',
+      };
+
+    case 'Calm':
+      return {
+        'title': 'You seem balanced today 🌿',
+        'action': 'Enjoy a mindfulness session',
+      };
+
+    case 'Stressed':
+      return {
+        'title': 'Take a slow breath 💙',
+        'action': 'Try a breathing exercise',
+      };
+
+    case 'Sad':
+      return {
+        'title': 'Be gentle with yourself 🌸',
+        'action': 'Write your thoughts in a journal',
+      };
+
+    case 'Tired':
+      return {
+        'title': 'Rest is productive too 😴',
+        'action': 'Try a sleep meditation',
+      };
+
+    default:
+      return null;
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -39,31 +75,46 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               const SizedBox(height: 12),
+MoodSelector(
+  selectedMood: _selectedMood,
+  onMoodSelected: (mood) {
+    setState(() {
+      _selectedMood = mood;
+    });
+  },
+),
 
-              MoodSelector(
-                selectedMood: _selectedMood,
-                onMoodSelected: (mood) {
-                  setState(() {
-                    _selectedMood = mood;
-                  });
-                },
-              ),
+if (_recommendation != null) ...[
+  const SizedBox(height: 20),
 
-              const SizedBox(height: 28),
+  Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: theme.colorScheme.primaryContainer,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          _recommendation!['title']!,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          _recommendation!['action']!,
+          style: theme.textTheme.bodyMedium,
+        ),
+      ],
+    ),
+  ),
+],
 
-              _QuoteCard(theme: theme),
+const SizedBox(height: 28),
 
-              const SizedBox(height: 28),
-
-              Text(
-                'Quick actions',
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-              const SizedBox(height: 12),
 
               _QuickActions(theme: theme),
 
