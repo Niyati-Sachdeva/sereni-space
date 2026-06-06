@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import '../journal_repository.dart';
 import '../journal_entry.dart';
 import '../widgets/journal_input.dart';
 import '../widgets/prompt_card.dart';
-
+import 'package:provider/provider.dart';
+import '../providers/journal_provider.dart';
 class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
 
@@ -15,12 +16,12 @@ class _JournalScreenState extends State<JournalScreen> {
   final TextEditingController _textController =
       TextEditingController();
 
-  final List<JournalEntry> _entries = [];
+  
 
   String _currentPrompt = '';
   bool _isSaving = false;
 
-  @override
+ 
   void dispose() {
     _textController.dispose();
     super.dispose();
@@ -40,12 +41,13 @@ class _JournalScreenState extends State<JournalScreen> {
       content: content,
       date: DateTime.now(),
     );
+    await context
+    .read<JournalProvider>()
+    .saveEntry(entry);
 
-    setState(() {
-      _entries.insert(0, entry);
-      _isSaving = false;
-    });
-
+setState(() {
+  _isSaving = false;
+});
     _textController.clear();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -58,7 +60,10 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+final journalProvider =
+    context.watch<JournalProvider>();
 
+final entries = journalProvider.entries;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -117,7 +122,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
               const SizedBox(height: 12),
 
-              if (_entries.isEmpty)
+              if (entries.isEmpty)
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -137,11 +142,11 @@ class _JournalScreenState extends State<JournalScreen> {
                   shrinkWrap: true,
                   physics:
                       const NeverScrollableScrollPhysics(),
-                  itemCount: _entries.length,
+                  itemCount: entries.length,
                   separatorBuilder: (_, __) =>
                       const SizedBox(height: 12),
                   itemBuilder: (context, index) {
-                    final entry = _entries[index];
+                    final entry = entries[index];
 
                     return Container(
                       padding:

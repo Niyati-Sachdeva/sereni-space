@@ -112,13 +112,25 @@ if (_recommendation != null) ...[
     ),
   ),
 ],
+const SizedBox(height: 28),
+
+_QuoteCard(theme: theme),
 
 const SizedBox(height: 28),
 
+Text(
+  'Quick actions',
+  style: theme.textTheme.titleMedium?.copyWith(
+    fontWeight: FontWeight.w600,
+  ),
+),
 
-              _QuickActions(theme: theme),
+const SizedBox(height: 12),
 
-              const SizedBox(height: 16),
+_QuickActions(theme: theme),
+const SizedBox(height: 16,),
+
+
             ],
           ),
         ),

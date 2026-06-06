@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 enum AppThemePreset { calmBlue, warmSunset, forestGreen, sleepLavender }
 
 class ThemeProvider extends ChangeNotifier {
+  
+  ThemeProvider() {
+    _loadTheme();
+  }
+
   AppThemePreset _currentPreset = AppThemePreset.calmBlue;
 
   AppThemePreset get currentPreset => _currentPreset;
@@ -32,10 +37,28 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 
-  void setTheme(AppThemePreset preset) {
+  void setTheme(AppThemePreset preset)async {
     if (_currentPreset == preset) return; // No pointless rebuilds
     _currentPreset = preset;
+      _currentPreset = preset;
+
+  final box = Hive.box('settings');
+
+  await box.put('theme', preset.name);
+
     notifyListeners(); // Tells every widget watching ThemeProvider to rebuild
-    // TODO: Persist to Hive when settings feature is built
+  }  Future<void> _loadTheme() async {
+    final box = Hive.box('settings');
+
+    final savedTheme = box.get('theme');
+
+    if (savedTheme != null) {
+      _currentPreset = AppThemePreset.values.firstWhere(
+        (preset) => preset.name == savedTheme,
+        orElse: () => AppThemePreset.calmBlue,
+      );
+
+      notifyListeners();
+    }
   }
 }
