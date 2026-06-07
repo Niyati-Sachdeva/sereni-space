@@ -6,7 +6,7 @@ import 'core/providers/theme_provider.dart';
 import 'app.dart';
 import 'features/journal/journal_entry.dart';
 import 'features/journal/providers/journal_provider.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -25,7 +25,7 @@ Future<void> main() async {
   await Hive.openBox('settings');
   await Hive.openBox<JournalEntry>('journal_entries');
 
-
+await dotenv.load(fileName: ".env");
   runApp(
     
     MultiProvider(

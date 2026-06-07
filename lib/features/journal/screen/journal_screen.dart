@@ -3,6 +3,7 @@ import '../journal_repository.dart';
 import '../journal_entry.dart';
 import '../widgets/journal_input.dart';
 import '../widgets/prompt_card.dart';
+import '../../../core/services/gemini_service.dart';
 import 'package:provider/provider.dart';
 import '../providers/journal_provider.dart';
 class JournalScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class JournalScreen extends StatefulWidget {
 class _JournalScreenState extends State<JournalScreen> {
   final TextEditingController _textController =
       TextEditingController();
-
+String? _aiInsight;
+bool _isGeneratingInsight = false;
   
 
   String _currentPrompt = '';
@@ -44,6 +46,21 @@ class _JournalScreenState extends State<JournalScreen> {
     await context
     .read<JournalProvider>()
     .saveEntry(entry);
+    final service = GeminiService();
+
+setState(() {
+  _isGeneratingInsight = true;
+});
+
+final insight =
+    await service.generateReflection(
+  content,
+);
+
+setState(() {
+  _aiInsight = insight;
+  _isGeneratingInsight = false;
+});
 
 setState(() {
   _isSaving = false;
@@ -99,20 +116,55 @@ final entries = journalProvider.entries;
               ),
 
               const SizedBox(height: 20),
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed:
+        _isSaving ? null : _saveEntry,
+    child: Text(
+      _isSaving
+          ? 'Saving...'
+          : 'Save Reflection',
+    ),
+  ),
+),
+if (_isGeneratingInsight) ...[
+  const SizedBox(height: 20),
+  const Center(
+    child: CircularProgressIndicator(),
+  ),
+],
 
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed:
-                      _isSaving ? null : _saveEntry,
-                  child: Text(
-                    _isSaving
-                        ? 'Saving...'
-                        : 'Save Reflection',
-                  ),
-                ),
-              ),
+if (_aiInsight != null) ...[
+  const SizedBox(height: 20),
 
+  Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: theme.colorScheme.primaryContainer,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'AI Insight 🌿',
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Text(
+          _aiInsight!,
+          style: theme.textTheme.bodyMedium,
+        ),
+      ],
+    ),
+  ),
+],
               const SizedBox(height: 32),
 
               Text(
