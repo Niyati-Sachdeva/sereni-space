@@ -1,17 +1,52 @@
-# sereni_space
+Sereni Space 🌿
 
-A new Flutter project.
+A Flutter-based wellness and mindfulness application designed to help users build healthy habits through journaling, meditation, breathing exercises, and AI-powered self-reflection.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features
+🌸 Mood-based wellness recommendations
+📖 Journal reflections with local persistence using Hive
+🤖 Gemini AI-powered emotional insights
+🧘 Guided meditation sessions
+⏱ Meditation countdown timer
+🌬 Breathing exercises
+🌙 Sleep wellness guidance
+🎨 Dynamic theme switching with persistence
+📱 Responsive Material 3 UI
+Tech Stack
+Flutter
+Dart
+Provider
+Hive
+Gemini API
+Material 3
+Architecture
+UI Layer
+    ↓
+Provider Layer
+    ↓
+Repository / Service Layer
+    ↓
+Hive Database / Gemini API
+Project Structure
+lib/
+├── core/
+│   ├── providers/
+│   ├── services/
+│   └── theme/
+│
+├── features/
+│   ├── home/
+│   ├── journal/
+│   ├── meditation/
+│   ├── breathe/
+│   ├── sleep/
+│   └── settings/
+│
+└── main.dart
+Key Learnings
+State management using Provider
+Local persistence with Hive
+API integration using Gemini
+Clean architecture principles
+Flutter navigation and reusable widgets
+Environment variable management using dotenv
