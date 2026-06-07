@@ -1,27 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/meditation_category_selector.dart';
-
-class _Session {
-  final String title;
-  final String duration;
-  final String description;
-  final IconData icon;
-  final String category;
-  final Color accentColor;
-
-  const _Session({
-    required this.title,
-    required this.duration,
-    required this.description,
-    required this.icon,
-    required this.category,
-    required this.accentColor,
-  });
-}
-
-// All seed sessions — filtered by selected category in the build method.
-const List<_Session> _allSessions = [
-  _Session(
+import '../models/meditation_session.dart';
+import 'meditation_detail_screen.dart';
+// Alseed sessions — filtered by selected category in the build method.
+ List<MeditationSession> _allSessions = [
+  const MeditationSession(
     title: 'Morning Calm',
     duration: '5 min',
     description: 'Start your day with gentle awareness and soft breath.',
@@ -29,7 +12,7 @@ const List<_Session> _allSessions = [
     category: 'All',
     accentColor: Color(0xFFFFB74D),
   ),
-  _Session(
+  const MeditationSession(
     title: 'Box Breathing',
     duration: '3 min',
     description: 'Equal inhale, hold, exhale, hold — a Navy SEAL staple.',
@@ -37,7 +20,7 @@ const List<_Session> _allSessions = [
     category: 'Breathing',
     accentColor: Color(0xFF81D4FA),
   ),
-  _Session(
+ const MeditationSession(
     title: 'Release Tension',
     duration: '7 min',
     description: 'Body scan to melt stress from shoulders to feet.',
@@ -45,7 +28,7 @@ const List<_Session> _allSessions = [
     category: 'Stress Relief',
     accentColor: Color(0xFFCE93D8),
   ),
-  _Session(
+  const MeditationSession(
     title: 'Sleep Wind-Down',
     duration: '10 min',
     description: 'Slow your mind before you close your eyes tonight.',
@@ -53,7 +36,7 @@ const List<_Session> _allSessions = [
     category: 'Sleep',
     accentColor: Color(0xFF90CAF9),
   ),
-  _Session(
+ const MeditationSession(
     title: 'Deep Focus',
     duration: '12 min',
     description: 'Anchor attention gently and return without judgment.',
@@ -61,7 +44,7 @@ const List<_Session> _allSessions = [
     category: 'Focus',
     accentColor: Color(0xFFA5D6A7),
   ),
-  _Session(
+ const MeditationSession(
     title: 'Anxiety Reset',
     duration: '4 min',
     description: 'Ground yourself with the 5-4-3-2-1 sensing technique.',
@@ -69,7 +52,7 @@ const List<_Session> _allSessions = [
     category: 'Anxiety',
     accentColor: Color(0xFFEF9A9A),
   ),
-  _Session(
+const  MeditationSession(
     title: 'Calm Breath',
     duration: '3 min',
     description: '4-7-8 breathing to quiet a restless nervous system.',
@@ -77,7 +60,7 @@ const List<_Session> _allSessions = [
     category: 'Breathing',
     accentColor: Color(0xFF80DEEA),
   ),
-  _Session(
+ const MeditationSession(
     title: 'Stress Melt',
     duration: '6 min',
     description: 'Progressive muscle relaxation for a calmer body and mind.',
@@ -108,7 +91,7 @@ class _MeditationScreenState extends State<MeditationScreen> {
   
   String _selectedCategory = 'All';
 
-  List<_Session> get _filteredSessions {
+  List<MeditationSession> get _filteredSessions {
     if (_selectedCategory == 'All') return _allSessions;
     return _allSessions
         .where((s) => s.category == _selectedCategory)
@@ -395,11 +378,11 @@ class _FeaturedCard extends StatelessWidget {
 
 
 class _SessionCard extends StatelessWidget {
-  final _Session session;
+  MeditationSession session;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
 
-  const _SessionCard({
+  _SessionCard({
     required this.session,
     required this.colorScheme,
     required this.textTheme,
@@ -412,23 +395,16 @@ class _SessionCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          // V2: open countdown timer bottom sheet
-          // V3: start audio playback via MeditationAudioService
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                '${session.title} — timer in V2 🧘',
-                style: const TextStyle(fontFamily: 'Nunito'),
-              ),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              backgroundColor: colorScheme.inverseSurface,
-            ),
-          );
-        },
+onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => MeditationDetailScreen(
+        session: session,
+      ),
+    ),
+  );
+},
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
