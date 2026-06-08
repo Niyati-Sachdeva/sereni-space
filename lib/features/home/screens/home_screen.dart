@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/mood_selector.dart';
-
+import '../../journal/screen/journal_screen.dart';
+import '../../meditation/screens/meditation_sceen.dart';
+import '../../breathe/screens/breathe_screen.dart';
+import '../../sleep/screens/sleep_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -288,7 +291,37 @@ class _QuickActions extends StatelessWidget {
           const NeverScrollableScrollPhysics(),
       children: actions.map((action) {
         return InkWell(
-          onTap: () {},
+          onTap: () {
+  Widget destination;
+
+  switch (action.label) {
+    case 'Journal':
+      destination = const JournalScreen();
+      break;
+
+    case 'Meditate':
+      destination = const MeditationScreen();
+      break;
+
+    case 'Breathe':
+      destination = const BreatheScreen();
+      break;
+
+    case 'Sleep':
+      destination = const SleepScreen();
+      break;
+
+    default:
+      return;
+  }
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => destination,
+    ),
+  );
+},
           borderRadius:
               BorderRadius.circular(14),
           child: Container(

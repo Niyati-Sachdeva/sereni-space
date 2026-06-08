@@ -6,7 +6,7 @@ class GeminiService {
 
   GeminiService() {
     _model = GenerativeModel(
-      model: 'gemini-2.0-flash',
+      model: 'gemini-3.5-flash',
       apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
     );
   }

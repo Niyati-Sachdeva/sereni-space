@@ -222,7 +222,18 @@ class _FeaturedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Container(
+    return  GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MeditationDetailScreen(
+          session: _allSessions.first,
+        ),
+      ),
+    );
+  },
+  child: Container(
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -267,7 +278,7 @@ class _FeaturedCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: Colors.white.withOpacity(0.06),
               ),
-            ),
+          ),
           ),
 
           // Content
@@ -371,7 +382,7 @@ class _FeaturedCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+     ) );
   }
 }
 
